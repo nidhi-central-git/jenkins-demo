@@ -1,23 +1,31 @@
 pipeline {
     agent any
 
-    environment {
-        APP_NAME = 'myapp'
-        ENV = 'dev'
+    parameters {
+        choice(
+            name: 'ENV',
+            choices: ['dev', 'staging', 'prod'],
+            description: 'Select deployment environment'
+        )
     }
 
     stages {
 
-        stage('Show Environment') {
+        stage('Build') {
             steps {
-                bat 'echo Application: %APP_NAME%'
-                bat 'echo Environment: %ENV%'
+                bat 'echo Building application...'
             }
         }
 
-        stage('Build') {
+        stage('Test') {
             steps {
-                bat 'echo Building %APP_NAME% for %ENV% environment...'
+                bat 'echo Testing application...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                bat 'echo Deploying application to %ENV% environment...'
             }
         }
 
