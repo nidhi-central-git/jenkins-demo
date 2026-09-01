@@ -3,22 +3,18 @@ pipeline {
 
     stages {
 
+        stage('Environment Info') {
+            steps {
+                bat 'echo Job Name: %JOB_NAME%'
+                bat 'echo Build Number: %BUILD_NUMBER%'
+                bat 'echo Workspace: %WORKSPACE%'
+                bat 'echo Build URL: %BUILD_URL%'
+            }
+        }
+
         stage('Build') {
             steps {
                 bat 'echo Building application...'
-                bat 'dir'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'echo Running tests...'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                bat 'echo Deploying application...'
             }
         }
 
