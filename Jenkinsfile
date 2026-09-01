@@ -1,20 +1,23 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = 'myapp'
+        ENV = 'dev'
+    }
+
     stages {
 
-        stage('Environment Info') {
+        stage('Show Environment') {
             steps {
-                bat 'echo Job Name: %JOB_NAME%'
-                bat 'echo Build Number: %BUILD_NUMBER%'
-                bat 'echo Workspace: %WORKSPACE%'
-                bat 'echo Build URL: %BUILD_URL%'
+                bat 'echo Application: %APP_NAME%'
+                bat 'echo Environment: %ENV%'
             }
         }
 
         stage('Build') {
             steps {
-                bat 'echo Building application...'
+                bat 'echo Building %APP_NAME% for %ENV% environment...'
             }
         }
 
