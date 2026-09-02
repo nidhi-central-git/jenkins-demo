@@ -1,14 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        choice(
-            name: 'ENV',
-            choices: ['dev', 'staging', 'prod'],
-            description: 'Select deployment environment'
-        )
-    }
-
     stages {
 
         stage('Build') {
@@ -23,37 +15,24 @@ pipeline {
             }
         }
 
-        stage('Deploy to Dev') {
-            when {
-                expression {
-                    params.ENV == 'dev'
-                }
-            }
+        stage('Deploy') {
             steps {
-                bat 'echo Deploying to DEV environment'
+                bat 'echo Deploying application...'
             }
         }
+    }
 
-        stage('Deploy to Staging') {
-            when {
-                expression {
-                    params.ENV == 'staging'
-                }
-            }
-            steps {
-                bat 'echo Deploying to STAGING environment'
-            }
+    post {
+        success {
+            bat 'echo Pipeline completed successfully!'
         }
 
-        stage('Deploy to Prod') {
-            when {
-                expression {
-                    params.ENV == 'prod'
-                }
-            }
-            steps {
-                bat 'echo Deploying to PRODUCTION environment'
-            }
+        failure {
+            bat 'echo Pipeline FAILED!'
+        }
+
+        always {
+            bat 'echo Pipeline execution finished.'
         }
     }
 }
